@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест внешнего доступа - GoMessage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #FFD700 100%);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .status {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .success { background: rgba(0, 255, 0, 0.3); }
+        .error { background: rgba(255, 0, 0, 0.3); }
+        .info { background: rgba(0, 150, 255, 0.3); }
+        button {
+            background: #FFD700;
+            color: #8B4513;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #FFED4E;
+            transform: translateY(-2px);
+        }
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Тест внешнего доступа GoMessage</h1>
+        
+        <div class="status info">
+            <strong>Текущий хост:</strong> <span id="currentHost">Загрузка...</span>
+        </div>
+        
+        <div class="status info">
+            <strong>IP адрес:</strong> <span id="ipAddress">Загрузка...</span>
+        </div>
+        
+        <button onclick="testAPI()">🧪 Тест API</button>
+        <button onclick="testWebSocket()">🔌 Тест WebSocket</button>
+        <button onclick="clearLog()">🧹 Очистить лог</button>
+        
+        <div class="log" id="log">
+            <div>📱 Страница загружена. Проверяем внешний доступ...</div>
+        </div>
+    </div>
+
+    <script>
+        // Отладочная информация
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logEntry.className = type;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        // Показываем текущий хост
+        document.getElementById('currentHost').textContent = window.location.host;
+        
+        // Получаем IP адрес
+        fetch('/health')
+            .then(response => response.json())
+            .then(data => {
+                log('✅ Health check успешен', 'success');
+                log(`📊 Статус: ${data.status}`, 'info');
+            })
+            .catch(error => {
+                log(`❌ Health check не удался: ${error.message}`, 'error');
+            });
+        
+        // Тест API
+        async function testAPI() {
+            log('🧪 Тестируем API...', 'info');
+            
+            try {
+                const response = await fetch('/api/v1/users/search?q=test');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('✅ API тест успешен', 'success');
+                    log(`📊 Ответ: ${JSON.stringify(data)}`, 'info');
+                } else {
+                    log(`❌ API ошибка: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ API тест не удался: ${error.message}`, 'error');
+            }
+        }
+        
+        // Тест WebSocket
+        function testWebSocket() {
+            log('🔌 Тестируем WebSocket...', 'info');
+            
+            try {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const host = window.location.host;
+                const wsUrl = `${protocol}//${host}/ws?user_id=1`;
+                
+                log(`🔗 WebSocket URL: ${wsUrl}`, 'info');
+                
+                const ws = new WebSocket(wsUrl);
+                
+                ws.onopen = function() {
+                    log('✅ WebSocket подключен!', 'success');
+                    ws.close();
+                };
+                
+                ws.onerror = function(error) {
+                    log(`❌ WebSocket ошибка: ${error}`, 'error');
+                };
+                
+                ws.onclose = function() {
+                    log('🔌 WebSocket отключен', 'info');
+                };
+                
+            } catch (error) {
+                log(`❌ WebSocket тест не удался: ${error.message}`, 'error');
+            }
+        }
+        
+        // Автоматический тест при загрузке
+        window.addEventListener('load', function() {
+            log('🚀 Страница полностью загружена', 'success');
+            log(`🌐 Протокол: ${window.location.protocol}`, 'info');
+            log(`🏠 Хост: ${window.location.host}`, 'info');
+            log(`📍 Путь: ${window.location.pathname}`, 'info');
+            
+            // Проверяем внешние ресурсы
+            const fontAwesome = document.querySelector('link[href*="font-awesome"]');
+            if (fontAwesome) {
+                log('✅ Font Awesome доступен', 'success');
+            } else {
+                log('❌ Font Awesome недоступен', 'error');
+            }
+        });
+    </script>
+</body>
+</html>
+
