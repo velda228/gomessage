@@ -52,24 +52,7 @@ func GetChatMessages(c *gin.Context) {
 	
 	// TODO: Получить сообщения из базы данных
 	
-	messages := []models.MessageResponse{
-		{
-			ID:       1,
-			Content:  "Привет!",
-			Type:     models.MessageTypeText,
-			Sender:   models.UserResponse{ID: 1, Username: "user1"},
-			ChatID:   uint(chatID),
-			IsEdited: false,
-		},
-		{
-			ID:       2,
-			Content:  "Привет! Как дела?",
-			Type:     models.MessageTypeText,
-			Sender:   models.UserResponse{ID: 2, Username: "user2"},
-			ChatID:   uint(chatID),
-			IsEdited: false,
-		},
-	}
+	messages := []models.MessageResponse{}
 	
 	c.JSON(http.StatusOK, gin.H{
 		"messages": messages,

@@ -11,6 +11,23 @@
 		78DC1A052E5B39D200559357 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A042E5B39D200559357 /* ContentView.swift */; };
 		78DC1A072E5B39DB00559357 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A062E5B39DB00559357 /* Assets.xcassets */; };
 		78DC1A0B2E5B39DB00559357 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A0A2E5B39DB00559357 /* Preview Assets.xcassets */; };
+		78DC1A162E5B55AE00559357 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A112E5B55AE00559357 /* Models */; };
+		78DC1A172E5B55AE00559357 /* Extensions in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A122E5B55AE00559357 /* Extensions */; };
+		78DC1A182E5B55AE00559357 /* Constants in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A132E5B55AE00559357 /* Constants */; };
+		78DC1A192E5B55AE00559357 /* Services in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A142E5B55AE00559357 /* Services */; };
+		78DC1A1A2E5B55AE00559357 /* Views in Resources */ = {isa = PBXBuildFile; fileRef = 78DC1A152E5B55AE00559357 /* Views */; };
+		78DC1A272E5B55EF00559357 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A262E5B55EF00559357 /* ProfileView.swift */; };
+		78DC1A282E5B55EF00559357 /* ChatsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A1F2E5B55EC00559357 /* ChatsListView.swift */; };
+
+		78DC1A2A2E5B55EF00559357 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A202E5B55EC00559357 /* AppConstants.swift */; };
+		78DC1A2B2E5B55EF00559357 /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A222E5B55ED00559357 /* WebSocketService.swift */; };
+		78DC1A2C2E5B55EF00559357 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A252E5B55EE00559357 /* AuthView.swift */; };
+		78DC1A2D2E5B55EF00559357 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A232E5B55ED00559357 /* ChatView.swift */; };
+		78DC1A2E2E5B55EF00559357 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A1C2E5B55EB00559357 /* APIService.swift */; };
+		78DC1A2F2E5B55EF00559357 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A1B2E5B55EB00559357 /* ViewExtensions.swift */; };
+		78DC1A302E5B55EF00559357 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A212E5B55ED00559357 /* MainTabView.swift */; };
+		78DC1A312E5B55EF00559357 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A1D2E5B55EB00559357 /* Message.swift */; };
+		78DC1A322E5B55EF00559357 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DC1A1E2E5B55EC00559357 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +37,23 @@
 		78DC1A062E5B39DB00559357 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78DC1A082E5B39DB00559357 /* gomessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gomessage.entitlements; sourceTree = "<group>"; };
 		78DC1A0A2E5B39DB00559357 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		78DC1A112E5B55AE00559357 /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
+		78DC1A122E5B55AE00559357 /* Extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Extensions; sourceTree = "<group>"; };
+		78DC1A132E5B55AE00559357 /* Constants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Constants; sourceTree = "<group>"; };
+		78DC1A142E5B55AE00559357 /* Services */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Services; sourceTree = "<group>"; };
+		78DC1A152E5B55AE00559357 /* Views */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Views; sourceTree = "<group>"; };
+		78DC1A1B2E5B55EB00559357 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		78DC1A1C2E5B55EB00559357 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		78DC1A1D2E5B55EB00559357 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		78DC1A1E2E5B55EC00559357 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		78DC1A1F2E5B55EC00559357 /* ChatsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsListView.swift; sourceTree = "<group>"; };
+		78DC1A202E5B55EC00559357 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		78DC1A212E5B55ED00559357 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		78DC1A222E5B55ED00559357 /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
+		78DC1A232E5B55ED00559357 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+
+		78DC1A252E5B55EE00559357 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		78DC1A262E5B55EF00559357 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +88,23 @@
 			children = (
 				78DC1A022E5B39D200559357 /* gomessageApp.swift */,
 				78DC1A042E5B39D200559357 /* ContentView.swift */,
+				78DC1A202E5B55EC00559357 /* AppConstants.swift */,
+				78DC1A1B2E5B55EB00559357 /* ViewExtensions.swift */,
+				78DC1A1D2E5B55EB00559357 /* Message.swift */,
+				78DC1A1E2E5B55EC00559357 /* User.swift */,
+				78DC1A1C2E5B55EB00559357 /* APIService.swift */,
+				78DC1A222E5B55ED00559357 /* WebSocketService.swift */,
+				78DC1A252E5B55EE00559357 /* AuthView.swift */,
+				78DC1A1F2E5B55EC00559357 /* ChatsListView.swift */,
+				78DC1A232E5B55ED00559357 /* ChatView.swift */,
+				78DC1A212E5B55ED00559357 /* MainTabView.swift */,
+
+				78DC1A262E5B55EF00559357 /* ProfileView.swift */,
+				78DC1A132E5B55AE00559357 /* Constants */,
+				78DC1A122E5B55AE00559357 /* Extensions */,
+				78DC1A112E5B55AE00559357 /* Models */,
+				78DC1A142E5B55AE00559357 /* Services */,
+				78DC1A152E5B55AE00559357 /* Views */,
 				78DC1A062E5B39DB00559357 /* Assets.xcassets */,
 				78DC1A082E5B39DB00559357 /* gomessage.entitlements */,
 				78DC1A092E5B39DB00559357 /* Preview Content */,
@@ -127,8 +178,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78DC1A192E5B55AE00559357 /* Services in Resources */,
+				78DC1A162E5B55AE00559357 /* Models in Resources */,
 				78DC1A0B2E5B39DB00559357 /* Preview Assets.xcassets in Resources */,
+				78DC1A182E5B55AE00559357 /* Constants in Resources */,
+				78DC1A172E5B55AE00559357 /* Extensions in Resources */,
 				78DC1A072E5B39DB00559357 /* Assets.xcassets in Resources */,
+				78DC1A1A2E5B55AE00559357 /* Views in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,8 +195,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78DC1A2F2E5B55EF00559357 /* ViewExtensions.swift in Sources */,
+				78DC1A282E5B55EF00559357 /* ChatsListView.swift in Sources */,
+				78DC1A2A2E5B55EF00559357 /* AppConstants.swift in Sources */,
 				78DC1A052E5B39D200559357 /* ContentView.swift in Sources */,
+				78DC1A2B2E5B55EF00559357 /* WebSocketService.swift in Sources */,
+				78DC1A2D2E5B55EF00559357 /* ChatView.swift in Sources */,
+				78DC1A322E5B55EF00559357 /* User.swift in Sources */,
+				78DC1A272E5B55EF00559357 /* ProfileView.swift in Sources */,
+				78DC1A2E2E5B55EF00559357 /* APIService.swift in Sources */,
+				78DC1A292E5B55EF00559357 /* NewChatView.swift in Sources */,
+				78DC1A312E5B55EF00559357 /* Message.swift in Sources */,
+				78DC1A2C2E5B55EF00559357 /* AuthView.swift in Sources */,
 				78DC1A032E5B39D200559357 /* gomessageApp.swift in Sources */,
+				78DC1A302E5B55EF00559357 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

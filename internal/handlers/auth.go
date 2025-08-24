@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
@@ -15,13 +16,10 @@ func Register(c *gin.Context) {
 	var req models.UserRegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request data: " + err.Error(),
+			"error": "Неверные данные запроса: " + err.Error(),
 		})
 		return
 	}
-
-	// TODO: Проверить уникальность username и email
-	// TODO: Сохранить пользователя в базе данных
 
 	cryptoService := crypto.NewCryptoService()
 	
@@ -29,7 +27,7 @@ func Register(c *gin.Context) {
 	salt, err := cryptoService.GenerateSalt()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to generate salt",
+			"error": "Ошибка генерации соли",
 		})
 		return
 	}
@@ -37,19 +35,47 @@ func Register(c *gin.Context) {
 	hash, err := cryptoService.HashPassword(req.Password, salt)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to hash password",
+			"error": "Ошибка хеширования пароля",
 		})
 		return
 	}
 
-	// TODO: Сохранить пользователя с хешем и солью
-	_ = hash // Временно игнорируем для компиляции
+	// Создаем пользователя в хранилище
+	log.Printf("🔍 Проверяем уникальность: username='%s', email='%s'", req.Username, req.Email)
+	
+	// Проверяем уникальность перед созданием
+	if models.GlobalUserStore.IsUsernameTaken(req.Username) {
+		log.Printf("❌ Username '%s' уже занят", req.Username)
+		c.JSON(http.StatusConflict, gin.H{
+			"error": "Имя пользователя уже занято",
+		})
+		return
+	}
+	
+	if models.GlobalUserStore.IsEmailTaken(req.Email) {
+		log.Printf("❌ Email '%s' уже занят", req.Email)
+		c.JSON(http.StatusConflict, gin.H{
+			"error": "Почта уже занята",
+		})
+		return
+	}
+	
+	user, err := models.GlobalUserStore.CreateUser(req.Username, req.Email, hash, salt)
+	if err != nil {
+		log.Printf("❌ Ошибка создания пользователя: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Ошибка создания пользователя: " + err.Error(),
+		})
+		return
+	}
+	
+	log.Printf("✅ Пользователь успешно создан: %s (ID: %d)", user.Username, user.ID)
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "User registered successfully",
+		"message": "Пользователь успешно зарегистрирован",
 		"user": gin.H{
-			"username": req.Username,
-			"email":    req.Email,
+			"username": user.Username,
+			"email":    user.Email,
 		},
 	})
 }
@@ -59,56 +85,60 @@ func Login(c *gin.Context) {
 	var req models.UserLoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request data: " + err.Error(),
+			"error": "Неверные данные запроса: " + err.Error(),
 		})
 		return
 	}
 
-	// TODO: Найти пользователя в базе данных
-	// TODO: Проверить пароль
-
+	// Ищем пользователя в хранилище
+	log.Printf("🔍 Попытка входа: username='%s'", req.Username)
+	
+	user, err := models.GlobalUserStore.GetUserByUsername(req.Username)
+	if err != nil {
+		log.Printf("❌ Пользователь '%s' не найден", req.Username)
+		// Не показываем, что пользователь не существует (безопасность)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Неверный логин или пароль",
+		})
+		return
+	}
+	
+	log.Printf("✅ Пользователь найден: %s (ID: %d)", user.Username, user.ID)
+	
 	cryptoService := crypto.NewCryptoService()
 	
-	// Временно для тестирования - создаем хеш на лету
-	// В реальном приложении это должно быть в базе данных
-	salt := "test_salt_123"
-	expectedHash, err := cryptoService.HashPassword(req.Password, salt)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to hash password",
+	// Проверяем пароль против сохраненного хеша
+	if !cryptoService.VerifyPassword(req.Password, user.Password, user.Salt) {
+		log.Printf("❌ Неверный пароль для пользователя '%s'", req.Username)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Неверный логин или пароль",
 		})
 		return
 	}
 	
-	// Проверяем пароль
-	if !cryptoService.VerifyPassword(req.Password, expectedHash, salt) {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Invalid credentials",
-		})
-		return
-	}
+	log.Printf("✅ Пароль верный для пользователя '%s'", req.Username)
 
 	// Генерируем JWT токен
 	payloadObj := map[string]interface{}{
-		"user_id":  1,
-		"username": req.Username,
+		"user_id":  user.ID,
+		"username": user.Username,
 		"exp":      time.Now().Add(24 * time.Hour).Unix(),
 	}
 	payloadBytes, _ := json.Marshal(payloadObj)
 	token, err := cryptoService.GenerateJWT(string(payloadBytes), "your-secret-key")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to generate token",
+			"error": "Ошибка генерации токена",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Login successful",
+		"message": "Вход выполнен успешно",
 		"token":   token,
 		"user": gin.H{
-			"id":       1,
-			"username": req.Username,
+			"id":       user.ID,
+			"username": user.Username,
 		},
 	})
 }

@@ -8,17 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var apiService = APIService.shared
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if apiService.isAuthenticated {
+                MainTabView()
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
+            } else {
+                AuthView()
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .leading).combined(with: .opacity),
+                        removal: .move(edge: .trailing).combined(with: .opacity)
+                    ))
+            }
         }
-        .padding()
+        .animation(.easeInOut(duration: 0.5), value: apiService.isAuthenticated)
     }
-}
-
-#Preview {
-    ContentView()
 }
